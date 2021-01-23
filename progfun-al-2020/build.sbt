@@ -20,10 +20,10 @@ lazy val root = (project in file("."))
       playJson,
       scalatic,
       scalaTest  % Test
-    )
-//     Wartremover
-//    wartremoverWarnings ++= Warts.unsafe,
-//    wartremoverErrors ++= Warts.unsafe
+    ),
+    // Wartremover
+    wartremoverWarnings ++= Warts.unsafe,
+    wartremoverErrors ++= Warts.unsafe
   )
 
 
@@ -71,4 +71,3 @@ val compilerOptions = Seq(
 )
 
 val consoleOptions = Seq()
-

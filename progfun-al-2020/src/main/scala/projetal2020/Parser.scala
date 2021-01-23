@@ -2,6 +2,7 @@ package projetal2020
 
 import scala.io.Source
 import java.io.File
+import scala.util.Failure
 
 class Parser {
 
@@ -10,12 +11,11 @@ class Parser {
     if (!data.isEmpty) {
       val parsedLines = data(0).split(" ")
       if (parsedLines.length != 2) {
-        try {
-          throw DonneesIncorectesException("Too many argument for pelouse")
-        } catch {
-          case c: DonneesIncorectesException =>
-            c.printStackTrace
-        }
+        val e = DonneesIncorectesException(
+          "Exception: Not found or Too many argument for pelouse"
+        )
+        println(e.message);
+        val _ = Failure(e)
         None
       } else {
         println("Ok. Processing to parse pelouse")
@@ -32,13 +32,14 @@ class Parser {
           case (_, index) => index != 0 && index % 2 != 0
         }
         .map(_._1)
-      if (parsedLines.length == 0) {
-        try {
-          throw DonneesIncorectesException("No tondeuses was found")
-        } catch {
-          case c: DonneesIncorectesException =>
-            c.printStackTrace
-        }
+      if (parsedLines.length == 0 || parsedLines
+            .filter(value => value.split(" ").length != 3)
+            .length != 0) {
+        val e = DonneesIncorectesException(
+          "Exception: No tondeuses / bad tondeuse format was found"
+        )
+        println(e.message)
+        val _ = Failure(e)
       } else println("Ok. Processing to parse tondeuses")
       parsedLines
         .filter(value => value.split(" ").length == 3)
@@ -65,12 +66,9 @@ class Parser {
         }
         .map(_._1)
       if (parsedLines.length == 0) {
-        try {
-          throw DonneesIncorectesException("No commands was found")
-        } catch {
-          case c: DonneesIncorectesException =>
-            c.printStackTrace
-        }
+        val e = DonneesIncorectesException("Exception: No commands was found")
+        print(e.message)
+        val _ = Failure(e)
       } else println("Ok. Processing to parse commands")
       parsedLines.map(
         value =>

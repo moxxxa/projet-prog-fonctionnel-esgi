@@ -1,6 +1,7 @@
 package projetal2020
 
+//  using exception dosen't respect wartremover rule
+
 final case class DonneesIncorectesException(
-    private val message: String = "",
-    private val cause: Throwable = None.orNull
-) extends Exception(message, cause)
+    message: String
+) extends Exception(message)

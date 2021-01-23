@@ -4,6 +4,8 @@ import play.api.libs.json._
 
 import java.io.{BufferedWriter, File, FileWriter}
 
+import scala.util.Failure
+
 object Main extends App {
 
   val dataFile = new File("input/input0.txt")
@@ -11,25 +13,16 @@ object Main extends App {
   val pelouse = parser.fetshPelous(dataFile)
   //  consider wrapping it in `locally
   val voidResult: Any = pelouse match {
-    case None =>
-      try {
-        throw DonneesIncorectesException("No pelouse was found")
-      } catch {
-        case c: DonneesIncorectesException =>
-          c.printStackTrace
-      }
+    case None => None
     case Some(pelouseWasFound) => {
       val tondeuses = parser.fetshTondeuses(dataFile)
       val commandes = parser.fetshCommandes(dataFile)
       if (commandes.length != tondeuses.length) {
-        try {
-          throw DonneesIncorectesException(
-            "Commands lines not matching tondeuses number"
-          )
-        } catch {
-          case c: DonneesIncorectesException =>
-            c.printStackTrace
-        }
+        val e = DonneesIncorectesException(
+          "Exception: Commands lines not matching tondeuses number"
+        )
+        print(e.message)
+        val _ = Failure(e)
       } else println("Ok. Commandes number matchs tondeuses number")
 
       val jsonMerger = new JsonMerger()
