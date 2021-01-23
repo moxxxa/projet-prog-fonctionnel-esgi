@@ -1,8 +1,9 @@
 package projetal2020
 
 import java.io.File
-
 import org.scalatest.funsuite.AnyFunSuite
+
+import scala.util.Failure
 
 class TondeuseTest extends AnyFunSuite {
 
@@ -16,25 +17,16 @@ class TondeuseTest extends AnyFunSuite {
     val pelouse = parser.fetshPelous(dataFile)
     // val voidResult: Any =
     pelouse match {
-      case None =>
-        try {
-          throw DonneesIncorectesException("No pelouse was found")
-        } catch {
-          case c: DonneesIncorectesException =>
-            c.printStackTrace
-        }
+      case None => None
       case Some(pelouseWasFound) => {
         val tondeuses = parser.fetshTondeuses(dataFile)
         val commandes = parser.fetshCommandes(dataFile)
         if (commandes.length != tondeuses.length) {
-          try {
-            throw DonneesIncorectesException(
-              "Test: Commands lines not matching tondeuses number"
-            )
-          } catch {
-            case c: DonneesIncorectesException =>
-              c.printStackTrace
-          }
+          val e = DonneesIncorectesException(
+            "Exception: Commands lines not matching tondeuses number"
+          )
+          print(e.message)
+          val _ = Failure(e)
         } else println("Test: Ok. Commandes number matchs tondeuses number")
 
         tondeuses.zipWithIndex.foreach {

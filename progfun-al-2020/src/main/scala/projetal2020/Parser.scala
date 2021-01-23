@@ -32,9 +32,10 @@ class Parser {
           case (_, index) => index != 0 && index % 2 != 0
         }
         .map(_._1)
-      if (parsedLines.length == 0 || parsedLines
-            .filter(value => value.split(" ").length != 3)
-            .length != 0) {
+      val numberOfInValidTondeuses = parsedLines
+        .filter(value => value.split(" ").length != 3)
+        .length
+      if (parsedLines.length == 0 || numberOfInValidTondeuses > 0) {
         val e = DonneesIncorectesException(
           "Exception: No tondeuses / bad tondeuse format was found"
         )
